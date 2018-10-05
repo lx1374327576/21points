@@ -43,7 +43,14 @@ public class StartListener implements ActionListener{
 			}
 		}
 		Player thePlayer = Splayers.get(Cplayers.getSelectedIndex());
-		gameEngine.dealPlayer(thePlayer, 1);
+		new Thread()
+		{
+			@Override
+			public void run()
+			{
+				gameEngine.dealPlayer(thePlayer, 1);
+			}
+		}.start();
 		for(Player player:Splayers) {
 			if(player.getResult()==0) {
 				return;

@@ -20,9 +20,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.text.Highlighter;
 
 import controller.AddPlayerListener;
 import controller.BetListener;
@@ -98,15 +97,13 @@ public class GameGUI implements Observer{
 		Lhouse=new JLabel("house");
 		Thouse=new JTextArea("Thouse information");
 		Tbet=new JTextArea("Bet information");
-		Tbet.setColumns(1);
-		Tbet.setRows(5);
 		Thouse.setEditable(false);
 		Tbet.setEditable(false);
 		//Tplayer_information.setEditable(false);
 
 
 
-		AddPlayerListener addListener = new AddPlayerListener(gameEngine, Splayers, Cplayers, this);
+		AddPlayerListener addListener = new AddPlayerListener(gameEngine, Splayers, Cplayers,Tsummary,this);
 		Badd.addActionListener(addListener);
 
 		UpPlayerListener upListener = new UpPlayerListener(gameEngine, Cplayers, this);
@@ -114,10 +111,10 @@ public class GameGUI implements Observer{
 
 		DownPlayerListener downListener = new DownPlayerListener(gameEngine, Cplayers, this);
 		Bdown.addActionListener(downListener);
-
+		
 		StartListener startListener = new StartListener(gameEngine, Splayers, Cplayers,Tbet, this);
 		Bstart.addActionListener(startListener);
-
+		
 		BetListener betListener = new BetListener(gameEngine, Splayers, Cplayers,Tbet, this);
 		Bbet.addActionListener(betListener);
 
@@ -192,38 +189,42 @@ public class GameGUI implements Observer{
 	@Override
 	public void update(Observable server, Object obj) {
 		// TODO Auto-generated method stub
-		System.out.println("Observer get!");
-		System.out.println(((GameEngineCallbackGUI) server).getFlag());
-		switch (((GameEngineCallbackGUI) server).getFlag()){
-			case 1:
-				Lstatus.setText("gaming");
-				ans=ans+((PlayingCard)obj).getScore();
-				Lresult.setText("result="+String.valueOf(ans));
-				Tplayer_information.add(new JLabel(((PlayingCard)obj).getSuit().toString()+" "+((PlayingCard)obj).getValue().toString()));
-				f.setVisible(true);
-			break;
-			case 2:
-				Lstatus.setText("boom!");
-				Tplayer_information.add(new JLabel(((PlayingCard)obj).getSuit().toString()+" "+((PlayingCard)obj).getValue().toString()));
-			break;
-			case 3:
-				Lstatus.setText("finished");
-			break;
-			case 4:
-				house_ans+=((PlayingCard)obj).getScore();
-				Thouse.setText("house result="+String.valueOf(house_ans));
-			break;
-			case 5:
-			break;
-			case 6:
-				String tmp=new String();
-				tmp="house result="+String.valueOf(house_ans)+"\n";
-				for (Player player:gameEngine.getAllPlayers()){
-					tmp=tmp+player.getPlayerName()+":"+String.valueOf(player.getResult())+"\n";
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			public void run() {
+				System.out.println("Observer get!");
+				System.out.println(((GameEngineCallbackGUI) server).getFlag());
+				switch (((GameEngineCallbackGUI) server).getFlag()){
+					case 1:
+						Lstatus.setText("gaming");
+						ans=ans+((PlayingCard)obj).getScore();
+						Lresult.setText("result="+String.valueOf(ans));
+						Tplayer_information.add(new JLabel(((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString()));
+					break;
+					case 2:
+						Lstatus.setText("boom!");
+						Tplayer_information.add(new JLabel(((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString()));
+					break;
+					case 3:
+						Lstatus.setText("finished");
+					break;
+					case 4:
+						house_ans+=((PlayingCard)obj).getScore();
+						Thouse.setText("house result="+String.valueOf(house_ans));
+					break;
+					case 5:
+					break;
+					case 6:
+						String tmp=new String();
+						tmp="house result="+String.valueOf(house_ans)+"\n";
+						for (Player player:gameEngine.getAllPlayers()){
+							tmp=tmp+player.getPlayerName()+":"+String.valueOf(player.getResult())+"\n";
+						}
+						Thouse.setText(tmp);
+					break;
 				}
-				Thouse.setText(tmp);
-			break;
-		}
+			}
+		});
 
 	}
 

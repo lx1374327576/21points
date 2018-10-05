@@ -39,6 +39,10 @@ public class BetListener implements ActionListener{
 		}
 		Player thePlayer = Splayers.get(Cplayers.getSelectedIndex());
 		int theBet = 100;
+		if(thePlayer.getPoints()<theBet) {
+			Splayers.remove(thePlayer);
+			return;
+		}
 		if(!(thePlayer.getBet()==0)) {
 			theBet = theBet + thePlayer.getBet();
 			isBet = thePlayer.placeBet(theBet);
@@ -53,7 +57,7 @@ public class BetListener implements ActionListener{
 		Tbet.setText("");
 		for (Player player:Splayers) {
 			if(!(player.getBet()==0)) {
-				String content = String.format( "%s : %d\n",player.getPlayerName(), player.getBet());
+				String content = String.format( "%s : %d",player.getPlayerName(), player.getBet());
 				Tbet.append(content + "\r\n");
 			}
 		}
