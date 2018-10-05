@@ -18,14 +18,16 @@ public class BetListener implements ActionListener{
 	private static List<Player> Splayers;
 	private static JComboBox<Object> Cplayers;
 	private static JTextArea Tbet;
+	private static JTextArea Tsummary;
 	private static GameGUI method;
 	
 	public  BetListener(GameEngine gameEngine,List<Player> Splayers,JComboBox<Object> Cplayers,
-			JTextArea Tbet,GameGUI method){
+			JTextArea Tbet,JTextArea Tsummary,GameGUI method){
 		this.gameEngine = gameEngine;
 		this.Splayers = Splayers;
 		this.Cplayers = Cplayers;
 		this.Tbet = Tbet;
+		this.Tsummary = Tsummary;
 		this.method = method;
 	}
 	
@@ -37,10 +39,22 @@ public class BetListener implements ActionListener{
 		if(Splayers.isEmpty()) {
 			return;
 		}
-		Player thePlayer = Splayers.get(Cplayers.getSelectedIndex());
+		int index = Cplayers.getSelectedIndex();
+		Player thePlayer = Splayers.get(index);
 		int theBet = 100;
 		if(thePlayer.getPoints()<theBet) {
 			Splayers.remove(thePlayer);
+			Cplayers.removeAllItems();
+			for(Player player1: Splayers) {
+				Cplayers.addItem(player1.getPlayerName());
+			}
+			Tsummary.setText("");
+	        if(!Splayers.isEmpty()) {
+	        	for(Player player1:Splayers) {
+	        		String content = String.format("%s : %d\r\n", player1.getPlayerName(),player1.getPoints());
+	        		Tsummary.append(content);
+	        	}
+	        }
 			return;
 		}
 		if(!(thePlayer.getBet()==0)) {

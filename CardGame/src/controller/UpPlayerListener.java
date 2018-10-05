@@ -37,6 +37,9 @@ public class UpPlayerListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		if(Cplayers.getItemCount()==0) {
+			return;
+		}
 		int index = Cplayers.getSelectedIndex();
 		if (index == 0 ) {
 			Cplayers.setSelectedIndex(0);

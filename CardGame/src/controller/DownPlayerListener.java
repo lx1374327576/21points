@@ -37,6 +37,9 @@ public class DownPlayerListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		if(Cplayers.getItemCount()==0) {
+			return;
+		}
 		int index = Cplayers.getSelectedIndex();
 		int len = Cplayers.getItemCount();
 		if (index == len-1 ) {

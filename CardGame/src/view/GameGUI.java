@@ -28,6 +28,8 @@ import controller.BetListener;
 import controller.DownPlayerListener;
 import controller.StartListener;
 import controller.UpPlayerListener;
+import controller.MnextbetListener;
+import controller.MrestartListener;
 import model.interfaces.GameEngine;
 import model.interfaces.Player;
 import model.interfaces.PlayingCard;
@@ -119,8 +121,15 @@ public class GameGUI implements Observer{
 		StartListener startListener = new StartListener(gameEngine, Splayers, Cplayers,Tbet, this);
 		Bstart.addActionListener(startListener);
 
-		BetListener betListener = new BetListener(gameEngine, Splayers, Cplayers,Tbet, this);
+		BetListener betListener = new BetListener(gameEngine, Splayers, Cplayers,Tbet,Tsummary,this);
 		Bbet.addActionListener(betListener);
+		
+		MnextbetListener nextListener = new MnextbetListener(gameEngine, Splayers, Tsummary, Tbet, Thouse, Tcard, this);
+		Mnextbet.addActionListener(nextListener);
+		
+		MrestartListener restartListener = new MrestartListener(gameEngine, Splayers, Cplayers, Tsummary, Tbet, Thouse, Tcard, this);
+		Mrestart.addActionListener(restartListener);
+		
 
 		Lsummary.setBounds(20, 80, 300, 50);
 		Tsummary.setBounds(20, 130,300, 300);
