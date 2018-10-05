@@ -31,7 +31,7 @@ public class AddPlayerListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("add one!");
+		//System.out.println("add one!");
 		int tmp=method.getPlayerNumber();
 		Player player=new SimplePlayer(Integer.toString(tmp+1),"tsy"+Integer.toString(tmp+1),(int)(1+Math.random()*10)*100);
 		gameEngine.addPlayer(player);

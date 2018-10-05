@@ -179,7 +179,7 @@ public class GameEngineImpl implements GameEngine {
 	 */
 	private void delayDeal(int delay) {
 		try {
-			System.out.println("time");
+			//System.out.println("time");
 			Thread.sleep(delay*1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();

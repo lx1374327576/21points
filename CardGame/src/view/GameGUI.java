@@ -43,7 +43,7 @@ public class GameGUI implements Observer{
 	public List<Player> Splayers;
 	public ActionListener BaddListener,BstartListener;
 	public JMenu Mmenu,Mtools,Mstatus;
-	public JMenuItem Mrestart,Mexit;
+	public JMenuItem Mrestart,Mexit,Mnextbet;
 	public JMenuBar MMenuBar;
 	public JPanel panel,Tplayer_information;
 	public GridLayout playerGridLayout;
@@ -54,7 +54,7 @@ public class GameGUI implements Observer{
 
 	public GameGUI(GameEngine gameEngine){
 		this.gameEngine=gameEngine;
-		System.out.println("Hello \n world!");
+		//System.out.println("Hello \n world!");
 
 		refresh();
 	}
@@ -74,6 +74,7 @@ public class GameGUI implements Observer{
 		Mmenu=new JMenu("Menu");
 		Mrestart=new JMenuItem("restart");
 		Mexit=new JMenuItem("exit");
+		Mnextbet=new JMenuItem("nextbet");
 		Mtools=new JMenu("tools");
 		Mstatus=new JMenu("status");
 		panel=new JPanel();
@@ -141,7 +142,7 @@ public class GameGUI implements Observer{
 
 		Cplayers.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				System.out.println("Cplayers listener added!");
+				//System.out.println("Cplayers listener added!");
 				Tplayer_information=new JPanel();
 				Tplayer_information.setBounds(230, 450, 300, 250);
 				playerGridLayout=new GridLayout(4,2);
@@ -163,6 +164,7 @@ public class GameGUI implements Observer{
 				}
 		});
 
+		Mmenu.add(Mnextbet);
 		Mmenu.add(Mrestart);
 		Mmenu.add(Mexit);
 		MMenuBar.add(Mmenu);
@@ -195,8 +197,8 @@ public class GameGUI implements Observer{
 		SwingUtilities.invokeLater(new Runnable()
 		{
 			public void run() {
-				System.out.println("Observer get!");
-				System.out.println(((GameEngineCallbackGUI) server).getFlag());
+				//System.out.println("Observer get!");
+				//System.out.println(((GameEngineCallbackGUI) server).getFlag());
 				switch (((GameEngineCallbackGUI) server).getFlag()){
 					case 1:
 						Lstatus.setText("gaming");
@@ -210,7 +212,7 @@ public class GameGUI implements Observer{
 						Lstatus.setText("boom!");
 						Tplayer_information.add(new JLabel(((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString()));
 						card_number--;
-						Tcard.setText(String.valueOf(card_number)+"cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
+						Tcard.setText(String.valueOf(card_number)+" cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
 					break;
 					case 3:
 						Lstatus.setText("finished");
@@ -219,17 +221,18 @@ public class GameGUI implements Observer{
 						house_ans+=((PlayingCard)obj).getScore();
 						Thouse.setText("house result="+String.valueOf(house_ans));
 						card_number--;
-						Tcard.setText(String.valueOf(card_number)+"cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
+						Tcard.setText(String.valueOf(card_number)+" cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
 					break;
 					case 5:
 						card_number--;
-						Tcard.setText(String.valueOf(card_number)+"cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
+						Tcard.setText(String.valueOf(card_number)+" cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
 					break;
 					case 6:
 						String tmp=new String();
 						tmp="house result="+String.valueOf(house_ans)+"\n";
 						for (Player player:gameEngine.getAllPlayers()){
-							tmp=tmp+player.getPlayerName()+":"+String.valueOf(player.getResult())+"\n";
+							tmp=tmp+player.getPlayerName()+":"+String.valueOf(player.getResult())+" "+
+									(house_ans>player.getResult()?"lose":house_ans==player.getResult()?"draw":"win")+"\n";
 						}
 						Thouse.setText(tmp);
 					break;
