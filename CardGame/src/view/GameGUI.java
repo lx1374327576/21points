@@ -218,8 +218,12 @@ public class GameGUI implements Observer{
 					case 4:
 						house_ans+=((PlayingCard)obj).getScore();
 						Thouse.setText("house result="+String.valueOf(house_ans));
+						card_number--;
+						Tcard.setText(String.valueOf(card_number)+"cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
 					break;
 					case 5:
+						card_number--;
+						Tcard.setText(String.valueOf(card_number)+"cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
 					break;
 					case 6:
 						String tmp=new String();

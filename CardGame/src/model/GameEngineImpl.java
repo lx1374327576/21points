@@ -44,6 +44,7 @@ public class GameEngineImpl implements GameEngine {
 					}else {
 						//More than 21 points. Display burst information and the result of players on the console.
 						gameEngineCallback.bustCard(player, card, this);
+						delayDeal(delay);
 						gameEngineCallback.result(player, player.getResult(), this);
 						break;
 					}
@@ -73,6 +74,7 @@ public class GameEngineImpl implements GameEngine {
 					}else {
 						//More than 21 points. Display burst information and the result of House on the console.
 						gameEngineCallback.houseBustCard(card, this);
+						delayDeal(delay);
 						for(Player player : getAllPlayers()) {
 							//Player win£¬player get bets
 							if(player.getResult() > houseResult)
