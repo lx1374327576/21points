@@ -27,7 +27,6 @@ public class StartListener implements ActionListener{
 		this.Cplayers = Cplayers;
 		this.Tbet = Tbet;
 		this.method = method;
-		method.house_ans = 0;
 	}
 
 	@Override
@@ -43,20 +42,29 @@ public class StartListener implements ActionListener{
 			}
 		}
 		Player thePlayer = Splayers.get(Cplayers.getSelectedIndex());
-		new Thread()
-		{
-			@Override
-			public void run()
+		if(thePlayer.getResult()==0) {
+			new Thread()
 			{
-				gameEngine.dealPlayer(thePlayer, 1);
-			}
-		}.start();
+				@Override
+				public void run()
+				{
+					gameEngine.dealPlayer(thePlayer, 1);
+				}
+			}.start();
+		}
 		for(Player player:Splayers) {
 			if(player.getResult()==0) {
 				return;
 			}
 		}
-		gameEngine.dealHouse(1);
+		new Thread()
+		{
+			@Override
+			public void run()
+			{
+				gameEngine.dealHouse(1);
+			}
+		}.start();
 		
 	}
 
