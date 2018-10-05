@@ -48,17 +48,20 @@ public class GameGUI implements Observer{
 	public JPanel panel,Tplayer_information;
 	public GridLayout playerGridLayout;
 	public int ans,house_ans;
+	public int card_number;
 
 
 
 	public GameGUI(GameEngine gameEngine){
 		this.gameEngine=gameEngine;
 		System.out.println("Hello \n world!");
+
 		refresh();
 	}
 
 	public void refresh(){
 
+		card_number=52;
 		if (f!=null) f.setVisible(false);
 		f=new JFrame();
 		f.setTitle("Game Machine");
@@ -111,10 +114,10 @@ public class GameGUI implements Observer{
 
 		DownPlayerListener downListener = new DownPlayerListener(gameEngine, Cplayers, this);
 		Bdown.addActionListener(downListener);
-		
+
 		StartListener startListener = new StartListener(gameEngine, Splayers, Cplayers,Tbet, this);
 		Bstart.addActionListener(startListener);
-		
+
 		BetListener betListener = new BetListener(gameEngine, Splayers, Cplayers,Tbet, this);
 		Bbet.addActionListener(betListener);
 
@@ -200,10 +203,14 @@ public class GameGUI implements Observer{
 						ans=ans+((PlayingCard)obj).getScore();
 						Lresult.setText("result="+String.valueOf(ans));
 						Tplayer_information.add(new JLabel(((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString()));
+						card_number--;
+						Tcard.setText(String.valueOf(card_number)+" cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
 					break;
 					case 2:
 						Lstatus.setText("boom!");
 						Tplayer_information.add(new JLabel(((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString()));
+						card_number--;
+						Tcard.setText(String.valueOf(card_number)+"cards left"+"\n"+"current card:\n"+((PlayingCard)obj).getSuit().toString()+((PlayingCard)obj).getValue().toString());
 					break;
 					case 3:
 						Lstatus.setText("finished");
